@@ -2,6 +2,8 @@ import streamlit as st
 from streamlit_chat import message
 import openai
 openai.api_key = st.secrets["OPENAI_API_KEY"]
+st.markdown("<h1 style='text-align: center; <style>#textform {position: fixed; bottom: 0}</style>", unsafe_allow_html=True)
+st.markdown("""<h1 style='text-align: center; <style>#textform {position: fixed; bottom: 0}</style>""", unsafe_allow_html=True)
 st.title("A helpful assistant.")
 if 'generated' not in st.session_state:
     st.session_state['generated'] = []
@@ -10,7 +12,6 @@ if 'past' not in st.session_state:
 if 'messages' not in st.session_state:
     st.session_state['messages'] = [
         {"role": "system", "content": "You are a helpful assistant."}]
-
 def generate_answer(prompt):
   st.session_state['messages'].append({"role": "user", "content": prompt})
   completion = openai.ChatCompletion.create(
@@ -22,20 +23,17 @@ def generate_answer(prompt):
   response = completion.choices[0].message.content
   st.session_state['messages'].append({"role": "assistant", "content": response})
   return response
-
-               
+    
 response_container = st.container()
 container = st.container()
-
-with st.form(clear_on_submit=True):
-    user_input = st.text_area("Prompt")
-    submit_button = st.form_submit_button(label='Send')
-
-if submit_button and user_input:
-    output = generate_answer(user_input)
-    st.session_state['past'].append(user_input)
-    st.session_state['generated'].append(output)
-
+with container:
+    with st.form(key='my_form', clear_on_submit=True):
+        user_input = st.text_area("Prompt", key='textform', height=40)
+        submit_button = st.form_submit_button(label='Send')
+    if submit_button and user_input:
+        output = generate_answer(user_input)
+        st.session_state['past'].append(user_input)
+        st.session_state['generated'].append(output)
 if st.session_state['generated']:
     with response_container:
         for i in range(len(st.session_state['generated'])):
