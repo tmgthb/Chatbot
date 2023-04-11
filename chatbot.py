@@ -28,7 +28,7 @@ response_container = st.container()
 container = st.container()
 with container:
     with st.form(clear_on_submit=True):
-        user_input = st.text_area("Prompt", position="fixed", bottom=0)
+        user_input = st.text_area("Prompt")
         submit_button = st.form_submit_button(label='Send')
 
     if submit_button and user_input:
