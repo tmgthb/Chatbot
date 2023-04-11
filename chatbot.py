@@ -23,10 +23,9 @@ def generate_answer(prompt):
   st.session_state['messages'].append({"role": "assistant", "content": response})
   return response
 
-tab1, tab2 = st.tabs(["Chat History", "Chat Prompt""])
                
-tab1.response_container = st.container()
-tab2.container = st.container()
+response_container = st.container()
+container = st.container()
 with container:
     with st.form(clear_on_submit=True):
         user_input = st.text_area("Prompt", position="fixed", bottom=0)
